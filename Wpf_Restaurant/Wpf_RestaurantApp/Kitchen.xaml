@@ -15,15 +15,36 @@
         <StackPanel Margin="29,99,1087,588.4" Orientation="Vertical">
             <TextBlock HorizontalAlignment="Left" Margin="0,0,-1.4,0" TextWrapping="Wrap" Text="Order Status" VerticalAlignment="Top" FontSize="18"/>
             <ComboBox/>
-            <ListBox Height="533" Margin="0,20,0,0"/>
+            <ListBox Name="Lbx_inQueue" Height="533" Margin="0,20,0,0">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical"></StackPanel>
+                    </ItemsPanelTemplate>
+                    
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <StackPanel>
+                                <TextBlock TextWrapping="Wrap">
+                                    <Run Text="{Binding quantity,Mode=TwoWay}"/>
+                                    <Run Text="X"/>
+                                    <Run Text="{Binding itemName,Mode=TwoWay}"/>
+                                </TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                
+                
+            </ListBox>
 
         </StackPanel>
-        <StackPanel Margin="342,99,35,38.4" Orientation="Vertical">
-            <TextBlock TextWrapping="Wrap" Text="Orders In-Progress" FontSize="18"/>
-            <Canvas Margin="0,15,0,0" HorizontalAlignment="Left" Height="561" VerticalAlignment="Top" Width="983"/>
-
-
+        <StackPanel Margin="404,99,443,39.4" Orientation="Vertical">
+            <TextBlock TextWrapping="Wrap" Text="In-Progress" FontSize="18" Margin="0,0,0,30"/>
+            <ListBox Name="Lbx_inProgress" Height="546" Margin="0,0,-0.2,0"/>
         </StackPanel>
+        <ListBox Name="Lbx_completed" HorizontalAlignment="Left" Height="545" Margin="1045,154,0,0" VerticalAlignment="Top" Width="238"/>
 
     </Grid>
 </Window>
