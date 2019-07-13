@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,14 @@ namespace Wpf_Restaurant
         public Kitchen()
         {
             InitializeComponent();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            List<Order> orderList = new List<Order>();
+            orderList.Add(new Order { id = 567, orderedDate = DateTime.Now, orderItems = new List<OrderItems> { new OrderItems { itemName = "Chicken Chilly", customization = "Less spicy", quantity = 2 }, new OrderItems { itemName = "Chicken Biriyani", customization = "Less spicy", quantity = 2 } } });
+            
+            Lbx_inQueue.ItemsSource = orderList;
         }
     }
 }

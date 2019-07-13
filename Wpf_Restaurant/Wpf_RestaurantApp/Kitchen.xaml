@@ -5,6 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wpf_Restaurant"
         mc:Ignorable="d"
+        Loaded="Window_Loaded"
+        
+        
         Title="Kitchen" Height="768" Width="1366">
     <Grid Margin="2,0,-2,0.4">
         <StackPanel Margin="20,20,20,666.4" Orientation="Horizontal">
@@ -12,27 +15,24 @@
             <TextBlock TextWrapping="Wrap" Margin="290,0,0,0" Text="TAJ RESTAURANT" FontSize="45"/>
 
         </StackPanel>
-        <StackPanel Margin="29,99,1087,575.4" Orientation="Vertical">
+        <StackPanel Margin="29,99,1087,48" Orientation="Vertical">
             <TextBlock HorizontalAlignment="Left" Margin="0,0,-1.4,0" TextWrapping="Wrap" Text="Order Status" VerticalAlignment="Top" FontSize="25"/>
-            <ComboBox/>
-            <ListBox Name="Lbx_inQueue" Height="512" Margin="0,20,0,0">
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Vertical"></StackPanel>
-                    </ItemsPanelTemplate>
-
-                </ListBox.ItemsPanel>
+            <ListBox Name="Lbx_inQueue" Height="515" Margin="0,40,0,0">
+                
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel>
+                        
                             <StackPanel>
+                            <ListBox>
                                 <TextBlock TextWrapping="Wrap">
-                                    <Run Text="{Binding quantity,Mode=TwoWay}"/>
+                                    <Run Text="{Binding quantity}"/>
                                     <Run Text="X"/>
-                                    <Run Text="{Binding itemName,Mode=TwoWay}"/>
+                                    <Run Text="{Binding itemName}"/>
                                 </TextBlock>
+                            </ListBox>
+                                
                             </StackPanel>
-                        </StackPanel>
+                        
                     </DataTemplate>
                 </ListBox.ItemTemplate>
 
