@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,30 +11,29 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Wpf_Restaurant
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Customization.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Customization : Window
     {
-        public MainWindow()
+        public static ObservableCollection<Order> _ordersList;
+        public Customization(int itemId)
         {
             InitializeComponent();
         }
 
-        private void Btn_startApp_Click(object sender, RoutedEventArgs e)
-        {
-            var waiterWin = new Waiter();
-            waiterWin.Owner= this;
-            waiterWin.Show();
 
-            //var kitchenWin = new Kitchen();
-            //kitchenWin.Owner = this;
-            //kitchenWin.Show();
+        private void Btn_cancelCustomization_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void Btn_saveCustomization_Click(object sender, RoutedEventArgs e)
+        {
 
         }
     }

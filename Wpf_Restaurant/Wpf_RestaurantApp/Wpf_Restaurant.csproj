@@ -61,14 +61,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes\Chef.cs" />
+    <Compile Include="Classes\MyStorage.cs" />
     <Compile Include="Classes\RestaurantTable.cs" />
     <Compile Include="Classes\Waiter.cs" />
+    <Compile Include="Customization.xaml.cs">
+      <DependentUpon>Customization.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Kitchen.xaml.cs">
       <DependentUpon>Kitchen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Waiter.xaml.cs">
       <DependentUpon>Waiter.xaml</DependentUpon>
     </Compile>
+    <Page Include="Customization.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Kitchen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
