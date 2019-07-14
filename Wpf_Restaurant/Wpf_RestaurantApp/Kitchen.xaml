@@ -9,31 +9,52 @@
         
         
         Title="Kitchen" Height="768" Width="1366">
+    <!--<Window.Resources>
+        <DataTemplate x:Key="ItemTemplate1">
+            <StackPanel>
+                <TextBlock Text="{Binding id}"/>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="ItemTemplate2">
+            <StackPanel>
+                <TextBlock Text="{Binding itemName}"/>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid x:Name="LayoutRoot">
+        <ListBox x:Name="Order" ItemTemplate="{DynamicResource ItemTemplate1}" ItemsSource="{Binding Order}" >
+            <ListBox x:Name="OrderItems"  DataContext="{Binding SelectedItem, ElementName=Order}" ItemsSource="{Binding OrderItems}" ItemTemplate="{DynamicResource ItemTemplate2}" />
+            <TextBlock  x:Name="OrderItem"   DataContext="{Binding SelectedItem, ElementName=OrderItems}"  Text="{Binding itemName }" />
+        </ListBox>
+    </Grid>-->
     <Grid Margin="2,0,-2,0.4">
+       
         <StackPanel Margin="20,20,20,666.4" Orientation="Horizontal">
             <Image Margin="10,0,0,0" HorizontalAlignment="Left" Height="52" VerticalAlignment="Top" Width="167"/>
             <TextBlock TextWrapping="Wrap" Margin="290,0,0,0" Text="TAJ RESTAURANT" FontSize="45"/>
 
         </StackPanel>
-        <StackPanel Margin="29,99,1087,48" Orientation="Vertical">
-            <TextBlock HorizontalAlignment="Left" Margin="0,0,-1.4,0" TextWrapping="Wrap" Text="Order Status" VerticalAlignment="Top" FontSize="25"/>
-            <ListBox Name="Lbx_inQueue" Height="515" Margin="2,40,-2,0">
-                
+        <StackPanel Name="Stk_inQueue" Margin="29,99,1075,48" Orientation="Vertical">
+            <TextBlock HorizontalAlignment="Left" Margin="0,0,-1.4,0" TextWrapping="Wrap" Text="InQueue Orders" VerticalAlignment="Top" FontSize="25"/>
+
+            <ListBox Name="Lbx_inQueue" Height="515" Margin="0,40,10,0" HorizontalAlignment="Right" Width="224" ItemsSource="{Binding}">
                 <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        
-                            <StackPanel>
-                            <ListBox>
-                                <TextBlock TextWrapping="Wrap">
+                    <HierarchicalDataTemplate DataType="{x:Type local:Order}" ItemsSource="{Binding Path=orderItems}">
+                       <StackPanel>
+                            <TextBlock Text="{Binding id}"/>
+                            <ListBox ItemsSource="{Binding orderItems}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate DataType="OrderItems">
+                                        <TextBlock TextWrapping="Wrap">
                                     <Run Text="{Binding quantity}"/>
                                     <Run Text="X"/>
                                     <Run Text="{Binding itemName}"/>
-                                </TextBlock>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
                             </ListBox>
-                                
-                            </StackPanel>
-                        
-                    </DataTemplate>
+                        </StackPanel>
+                        </HierarchicalDataTemplate> 
                 </ListBox.ItemTemplate>
 
 
@@ -47,7 +68,7 @@
         <StackPanel Margin="1045,99,77,47.4" Orientation="Vertical">
             <TextBlock TextWrapping="Wrap" Text="Completed"  FontSize="25" Margin="0,0,0,35"/>
             <ListBox x:Name="Lbx_completed" HorizontalAlignment="Left" Height="520" VerticalAlignment="Top" Width="238"/>
-            
+
 
         </StackPanel>
 

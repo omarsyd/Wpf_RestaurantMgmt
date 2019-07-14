@@ -21,11 +21,13 @@ namespace Wpf_Restaurant
     /// </summary>
     public partial class Waiter : Window
     {
+        System.Globalization.CultureInfo germanCulture = new System.Globalization.CultureInfo("de-de");
         public static ObservableCollection<MenuCard> _menuCard;
         public static ObservableCollection<MenuCard> _menu;
         public static ObservableCollection<Order> _orders;
         public static ObservableCollection<RestaurantTable> _tables;
         public static ObservableCollection<Order> orderLst;
+        public static ObservableCollection<Order> _newOrder;
         public static Order _orderList;
 
         public Waiter()
@@ -113,6 +115,12 @@ namespace Wpf_Restaurant
 
         private void Lbx_items_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            string tableNo = (Cbx_tables.SelectedItem as RestaurantTable).tableNo;
+            if(tableNo.Contains("Choose"))
+            {
+                MessageBox.Show("Select the table Number first before creating an order");
+                return;
+            }
             MenuCard item = Lbx_items.SelectedItem as MenuCard;
             if (item != null)
             {
@@ -164,6 +172,7 @@ namespace Wpf_Restaurant
         {
             try
             {
+                string tableNo = (Cbx_tables.SelectedItem as RestaurantTable).tableNo;
                 MenuCard item = Cbx_items.SelectedItem as MenuCard;
                 if (item != null && item.itemName != "Choose an Item")
                 {
@@ -179,37 +188,40 @@ namespace Wpf_Restaurant
                     }
                     Random rnd = new Random();
                     Cbx_items.SelectedItem = item.itemName;
-                    var res = (from p in _menuCard where (p.itemName == item.itemName && p.hasAlcohol == hasAlcohol && p.isVeg == isVegetarian) select p).FirstOrDefault();
+                    var res = (from p in _menuCard where p.itemName == item.itemName select p).FirstOrDefault();
                     orderLst = MyStorage.ReadXml<ObservableCollection<Order>>("orders.xml");
                     int itemId = rnd.Next(0, 99);
-                    if (orderLst.Count == 0)
+
+                    ObservableCollection<Order> orderList = new ObservableCollection<Order>(orderLst);
+                    var list = (from o in orderList where o.table.tableNo == tableNo select o).FirstOrDefault();
+                    if (list != null)
                     {
-                        int id = rnd.Next(0, 999);
-                        _orderList = new Order { id = id, orderedDate = DateTime.Now, table = new RestaurantTable { isIndoor = false, isBooked = true, tableNo = "3" }, waiterId = 3, orderItems = new List<OrderItems> { new OrderItems { itemName = res.itemName, allergens = res.allergens, price = res.price, totalQuantityPrice = res.price, quantity = 1, itemId = itemId } } };
+                        list.orderItems.Add(new OrderItems { itemName = res.itemName, allergens = res.allergens, price = res.price, totalQuantityPrice = res.price, quantity = 1, itemId = itemId });
+                        _orderList = list;
+                        Lbx_order.Visibility = Visibility.Visible;
                         Lbx_order.ItemsSource = null;
                         Lbx_order.ItemsSource = _orderList.orderItems;
                     }
                     else
                     {
-                        ObservableCollection<Order> orderList = new ObservableCollection<Order>(orderLst);
-                        var list = (from o in orderList where o.table.tableNo == Cbx_tables.SelectedItem.ToString() select o).FirstOrDefault();
-                        if (list != null)
+                        if (_orderList != null)
                         {
-                            list.orderItems.Add(new OrderItems { itemName = res.itemName, allergens = res.allergens, price = res.price, totalQuantityPrice = res.price, quantity = 1, itemId = itemId });
-                            _orderList = list;
+                            _orderList.orderItems.Add(new OrderItems { itemName = res.itemName, allergens = res.allergens, price = res.price, totalQuantityPrice = res.price, quantity = 1, itemId = itemId });
                         }
                         else
                         {
                             int id = rnd.Next(0, 999);
-                            _orderList = new Order { id = id, orderedDate = DateTime.Now, table = new RestaurantTable { isIndoor = false, isBooked = true, tableNo = "3" }, waiterId = 3, orderItems = new List<OrderItems> { new OrderItems { itemName = res.itemName, allergens = res.allergens, price = res.price, totalQuantityPrice = res.price, quantity = 1, itemId = itemId } } };
+                            _orderList = new Order { id = id, orderedDate = DateTime.Now, table = new RestaurantTable { tableNo = tableNo }, orderItems = new List<OrderItems> { new OrderItems { itemName = res.itemName, allergens = res.allergens, price = res.price, quantity = 1 } } };
 
                         }
-
                         Lbx_order.Visibility = Visibility.Visible;
                         Lbx_order.ItemsSource = null;
                         Lbx_order.ItemsSource = _orderList.orderItems;
                     }
+
+
                 }
+
                 this.DataContext = _orderList;
             }
             catch (Exception ex)
@@ -227,14 +239,14 @@ namespace Wpf_Restaurant
                 {
                     double priceVal;
 
-                    //if (double.TryParse(orderItem.price, System.Globalization.NumberStyles.Float, germanCulture, out priceVal))
-                    //{
-                    //    double valInGermanFormat = priceVal;
+                    if (double.TryParse(orderItem.priceFormatted, System.Globalization.NumberStyles.Float, germanCulture, out priceVal))
+                    {
+                        double valInGermanFormat = priceVal;
 
-                    //}
+                    }
 
                     orderItem.quantity = orderItem.quantity + 1;
-                    double totalItemPrice = (orderItem.price * orderItem.quantity);
+                    double totalItemPrice = (priceVal * orderItem.quantity);
                     orderItem.totalQuantityPrice = totalItemPrice;
                     break;
                 }
@@ -256,14 +268,14 @@ namespace Wpf_Restaurant
                 {
                     double priceVal;
 
-                    //if (double.TryParse(orderItem.price, System.Globalization.NumberStyles.Float, germanCulture, out priceVal))
-                    //{
-                    //    double valInGermanFormat = priceVal;
+                    if (double.TryParse(orderItem.priceFormatted, System.Globalization.NumberStyles.Float, germanCulture, out priceVal))
+                    {
+                        double valInGermanFormat = priceVal;
 
-                    //}
+                    }
 
                     orderItem.quantity = orderItem.quantity - 1;
-                    double totalItemPrice = (orderItem.price * orderItem.quantity);
+                    double totalItemPrice = (priceVal * orderItem.quantity);
                     orderItem.totalQuantityPrice = totalItemPrice;
                     break;
                 }
@@ -343,6 +355,7 @@ namespace Wpf_Restaurant
 
             }
             MyStorage.WriteXml<ObservableCollection<Order>>(_orders, "orders.xml");
+            _orderList = null;
             MessageBox.Show("Order Placed Successfully!", "Success", MessageBoxButton.OK);
         }
 
@@ -366,6 +379,7 @@ namespace Wpf_Restaurant
         {
             if (Cbx_tables.SelectedItem != null)
             {
+                _orderList = null;
                 var tables = (Cbx_tables.SelectedItem as RestaurantTable).tableNo;
                 if (tables.Contains("Choose"))
                 {
@@ -375,8 +389,8 @@ namespace Wpf_Restaurant
                 {
                     var list = MyStorage.ReadXml<ObservableCollection<Order>>("orders.xml");
                     var res = (from o in list where o.table.tableNo == tables select o).FirstOrDefault();
-                    if(res != null)
-                    Lbx_order.ItemsSource = res.orderItems;
+                    if (res != null)
+                        Lbx_order.ItemsSource = res.orderItems;
                 }
             }
         }

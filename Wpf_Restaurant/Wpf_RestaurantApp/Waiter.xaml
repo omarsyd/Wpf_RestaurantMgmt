@@ -17,7 +17,7 @@
 
 
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Table No." VerticalAlignment="Top" Margin="27,75,0,0"/>
-        <ComboBox HorizontalAlignment="Right" Name="Cbx_tables" VerticalAlignment="Top" Width="198" Margin="0,96,372,0" Tag="{Binding id}" SelectionChanged="Cbx_tables_SelectionChanged" >
+        <ComboBox HorizontalAlignment="Right" Name="Cbx_tables" VerticalAlignment="Top" Width="198" Margin="0,96,372,0"  SelectionChanged="Cbx_tables_SelectionChanged" >
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock TextWrapping="Wrap">
@@ -78,9 +78,9 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button Content="Cancel Order" HorizontalAlignment="Right" Name="Btn_cancelOrder" VerticalAlignment="Bottom" Width="172" Margin="0,0,398,66" Height="34" Click="Btn_cancelOrder_Click" Tag="{Binding id}"/>
-        <Button Content="Billing" HorizontalAlignment="Right" Name="btn_Billing" VerticalAlignment="Bottom" Width="172" Margin="0,0,217,66" Height="34" Click="Btn_Billing_Click" Tag="{Binding id}"/>
-        <Button Content="Place Order" HorizontalAlignment="Right" Name="Btn_placeOrder" VerticalAlignment="Bottom" Width="172" Margin="0,0,33,66" Height="34" Click="Btn_placeOrder_Click" Tag="{Binding id}" />
+        <Button Content="Cancel Order" HorizontalAlignment="Right" Name="Btn_cancelOrder" VerticalAlignment="Bottom" Width="172" Margin="0,0,398,126" Height="34" Click="Btn_cancelOrder_Click" Tag="{Binding id}"/>
+        <Button Content="Billing" HorizontalAlignment="Right" Name="btn_Billing" VerticalAlignment="Bottom" Width="172" Margin="0,0,217,126" Height="34" Click="Btn_Billing_Click" Tag="{Binding id}"/>
+        <Button Content="Place Order" HorizontalAlignment="Right" Name="Btn_placeOrder" VerticalAlignment="Bottom" Width="172" Margin="0,0,33,126" Height="34" Click="Btn_placeOrder_Click" Tag="{Binding id}" />
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Total :" VerticalAlignment="Top" Margin="390,740,0,0"/>
 
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding totalBillAmount}" VerticalAlignment="Top" Margin="441,741,0,0" Height="33" Width="76" Name="Tbk_totalBillAmount"/>

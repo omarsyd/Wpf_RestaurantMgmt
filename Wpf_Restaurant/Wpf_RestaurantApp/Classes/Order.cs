@@ -20,6 +20,15 @@ namespace Wpf_Restaurant
         public int waiterId { get; set; }
 
         public string billAmount { get; set; }
+
+        public Status appetizerStatus { get; set; }
+
+        public Status beveragesStatus { get; set; }
+
+        public Status mainCourseStatus { get; set; }
+
+        public Status dessertsStatus { get; set; }
+
     }
 
     public class OrderItems
@@ -56,5 +65,12 @@ namespace Wpf_Restaurant
             get { return totalQuantityPrice.ToString(System.Globalization.CultureInfo.CurrentCulture); }
             set { totalQuantityPrice = double.Parse(value, System.Globalization.CultureInfo.CurrentCulture); }
         }
+    }
+
+    public enum Status
+    {
+        InQueue = 0,
+        InProgress = 1,
+        Ready = 2
     }
 }

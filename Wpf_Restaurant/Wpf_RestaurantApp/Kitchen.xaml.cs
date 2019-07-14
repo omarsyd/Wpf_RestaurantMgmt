@@ -20,6 +20,7 @@ namespace Wpf_Restaurant
     /// </summary>
     public partial class Kitchen : Window
     {
+        public static ObservableCollection<Order> _orders;
         public Kitchen()
         {
             InitializeComponent();
@@ -27,10 +28,14 @@ namespace Wpf_Restaurant
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            List<Order> orderList = new List<Order>();
-            orderList.Add(new Order { id = 567, orderedDate = DateTime.Now, orderItems = new List<OrderItems> { new OrderItems { itemName = "Chicken Chilly", customization = "Less spicy", quantity = 2 }, new OrderItems { itemName = "Chicken Biriyani", customization = "Less spicy", quantity = 2 } } });
-            
-            Lbx_inQueue.ItemsSource = orderList;
+            //List<Order> orderList = new List<Order>();
+            //orderList.Add(new Order { id = 567, orderedDate = DateTime.Now, orderItems = new List<OrderItems> { new OrderItems { itemName = "Chicken Chilly", customization = "Less spicy", quantity = 2 }, new OrderItems { itemName = "Chicken Biriyani", customization = "Less spicy", quantity = 2 } } });
+
+            //Lbx_inQueue.ItemsSource = orderList;
+            var result = MyStorage.ReadXml<ObservableCollection<Order>>("orders.xml");
+            ObservableCollection<Order> orderList = new ObservableCollection<Order>(result);
+            DataContext = orderList;
+
         }
     }
 }
