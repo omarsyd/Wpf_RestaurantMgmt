@@ -7,17 +7,17 @@
         mc:Ignorable="d" Loaded="Window_Loaded"
         Title="TAJ RESTAURANT" Height="1024" Width="600">
     <Grid Height="940" VerticalAlignment="Top" HorizontalAlignment="Center" Width="595" Margin="-1,0,-0.4,-3.2">
-        <StackPanel Margin="10,6,0,0" Orientation="Horizontal" Height="54" VerticalAlignment="Top" HorizontalAlignment="Left" Width="574">
+        <StackPanel Margin="10,6,0,0" Orientation="Horizontal" Height="54" VerticalAlignment="Top" HorizontalAlignment="Left" Width="574" Background="#d4546f">
             <Image HorizontalAlignment="Right" Height="39" VerticalAlignment="Top" Width="108" Margin="0,6,0,0"/>
-            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="TAJ RESTAURANT" VerticalAlignment="Bottom" Margin="0,0,0,13.4" Height="38" Width="268" FontWeight="Bold" FontSize="28" TextAlignment="Center"/>
-            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,23,0,0" RenderTransformOrigin="0.879,0.631" Width="63"><Run Text="Waiter ID:"/></TextBlock>
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="TAJ RESTAURANT" VerticalAlignment="Bottom" Margin="0,0,0,13.4" Height="38" Width="268" FontWeight="Bold" FontSize="28" TextAlignment="Center" Foreground="White"/>
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,23,0,0" Foreground="White" RenderTransformOrigin="0.879,0.631" Width="63"><Run Text="Waiter ID:"/></TextBlock>
             <TextBlock TextWrapping="Wrap" Text="{Binding waiterId}" x:Name="Tbk_waiterId"  Width="38" HorizontalAlignment="Left" Margin="0,23,0,3.2"/>
             <Button Content="Logout" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="65" Margin="0,0,0,15.4" Height="20" RenderTransformOrigin="0.585,0.316"/>
         </StackPanel>
 
 
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Table No." VerticalAlignment="Top" Margin="27,75,0,0"/>
-        <ComboBox HorizontalAlignment="Right" Name="Cbx_tables" VerticalAlignment="Top" Width="198" Margin="0,96,372,0"  SelectionChanged="Cbx_tables_SelectionChanged" >
+        <ComboBox HorizontalAlignment="Right" Name="Cbx_tables" VerticalAlignment="Top" Width="198" Margin="0,96,372,0"  SelectionChanged="Cbx_tables_SelectionChanged" Background="">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock TextWrapping="Wrap">
@@ -27,7 +27,7 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Item Category" VerticalAlignment="Top" Margin="23,139,0,0"/>
-        <ComboBox HorizontalAlignment="Left" Name="Cbx_itemCategory" VerticalAlignment="Top" Width="199" Margin="26,161,0,0" SelectionChanged="Cbx_itemCategory_SelectionChanged"/>
+        <ComboBox HorizontalAlignment="Left" Name="Cbx_itemCategory" VerticalAlignment="Top" Width="199" Margin="26,161,0,0" Foreground="White" SelectionChanged="Cbx_itemCategory_SelectionChanged"/>
         <TextBlock Text="Choose Item" Margin="0,200,372,0"  Width="199" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right"/>
         <TextBox HorizontalAlignment="Left" Height="23" Name="Tbx_searchItem" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="259" Margin="299,221,0,0"  KeyUp="Txb_searchItem_KeyUp"/>
 
