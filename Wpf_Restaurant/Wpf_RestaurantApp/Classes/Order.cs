@@ -35,6 +35,8 @@ namespace Wpf_Restaurant
     {
         public int itemId { get; set; }
 
+        public string category { get; set; }
+
         public string itemName { get; set; }
 
         public string allergens { get; set; }

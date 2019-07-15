@@ -62,6 +62,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Classes\Chef.cs" />
+    <Compile Include="Classes\Converters.cs" />
     <Compile Include="Classes\MyStorage.cs" />
     <Compile Include="Classes\RestaurantTable.cs" />
     <Compile Include="Classes\Waiter.cs" />

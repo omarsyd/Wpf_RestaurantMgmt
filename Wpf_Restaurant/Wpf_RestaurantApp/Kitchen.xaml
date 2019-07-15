@@ -28,33 +28,51 @@
         </ListBox>
     </Grid>-->
     <Grid Margin="2,0,-2,0.4">
-       
+        <Grid.Resources>
+            <!--<local:BoolToString x:Key="cB2S">
+            </local:BoolToString>-->
+        </Grid.Resources>
         <StackPanel Margin="20,20,20,666.4" Orientation="Horizontal">
             <Image Margin="10,0,0,0" HorizontalAlignment="Left" Height="52" VerticalAlignment="Top" Width="167"/>
-            <TextBlock TextWrapping="Wrap" Margin="290,0,0,0" Text="TAJ RESTAURANT" FontSize="45"/>
+            <TextBlock Name="Tblk_restaurantName" TextWrapping="Wrap" Margin="290,0,0,0" Text="TAJ RESTAURANT" FontSize="45"/>
 
         </StackPanel>
-        <StackPanel Name="Stk_inQueue" Margin="29,99,1075,48" Orientation="Vertical">
+        <StackPanel Name="Stk_inQueue" Margin="29,99,1046,48" Orientation="Vertical">
             <TextBlock HorizontalAlignment="Left" Margin="0,0,-1.4,0" TextWrapping="Wrap" Text="InQueue Orders" VerticalAlignment="Top" FontSize="25"/>
 
-            <ListBox Name="Lbx_inQueue" Height="515" Margin="0,40,10,0" HorizontalAlignment="Right" Width="224" ItemsSource="{Binding}">
-                <ListBox.ItemTemplate>
-                    <HierarchicalDataTemplate DataType="{x:Type local:Order}" ItemsSource="{Binding Path=orderItems}">
-                       <StackPanel>
-                            <TextBlock Text="{Binding id}"/>
-                            <ListBox ItemsSource="{Binding orderItems}">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate DataType="OrderItems">
-                                        <TextBlock TextWrapping="Wrap">
+            <ListBox Name="Lbx_inQueue" Height="488" Margin="0,40,9.8,0" HorizontalAlignment="Right" Width="265"  Tag="{Binding id}">
+                <ListBox.ItemTemplate >
+                    <HierarchicalDataTemplate>
+                        <Border CornerRadius="4"
+                BorderBrush="Gray"
+                Background="White"
+                BorderThickness="1"
+                Padding="2">
+                            <StackPanel Width="240" Margin="5,10,5,10" Tag="{Binding id}" MouseLeftButtonUp="Lbx_order_MouseLeftButtonUp">
+                                <TextBlock Text="{Binding id}"/>
+                                <ListBox Name="Lbx_order" ItemsSource="{Binding orderItems}"  Tag="{Binding id}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate DataType="OrderItems">
+                                            <TextBlock TextWrapping="Wrap">
                                     <Run Text="{Binding quantity}"/>
                                     <Run Text="X"/>
                                     <Run Text="{Binding itemName}"/>
-                                        </TextBlock>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </StackPanel>
-                        </HierarchicalDataTemplate> 
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                                <StackPanel Margin="5" Orientation="Horizontal">
+                                    <TextBlock Text="Assign Order to:" HorizontalAlignment="Left" Margin="0,0,5,0"/>
+                                    <ComboBox Width="100" HorizontalAlignment="Right" Tag="{Binding id}" Name="Cbx_assignChef">
+                                        <ComboBoxItem Name="Choose" IsSelected="True">Choose Chef</ComboBoxItem>
+                                        <ComboBoxItem Name="Chef1">OSyed</ComboBoxItem>
+                                        <ComboBoxItem Name="Chef2">GLahare</ComboBoxItem>
+                                        <ComboBoxItem Name="Chef3">JShree</ComboBoxItem>
+                                    </ComboBox>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </HierarchicalDataTemplate>
                 </ListBox.ItemTemplate>
 
 
@@ -62,12 +80,63 @@
 
         </StackPanel>
         <StackPanel Margin="412,91,435,47.4" Orientation="Vertical">
-            <TextBlock TextWrapping="Wrap" Text="In-Progress" FontSize="25" Margin="0,10,0,35"/>
-            <ListBox x:Name="Lbx_inProgress" Height="520" Margin="0,0,-0.2,0"/>
+            <TextBlock TextWrapping="Wrap" Text="In-Progress" FontSize="25" Margin="0,10,0,35" Name="Stk_InProgress"/>
+            <ListBox x:Name="Lbx_inProgress" Height="506" Margin="0,0,9.8,0" HorizontalAlignment="Right" Width="493">
+                <ListBox.ItemTemplate>
+                    <HierarchicalDataTemplate>
+                        <Border CornerRadius="4"
+                BorderBrush="Gray"
+                Background="White"
+                BorderThickness="1"
+                Padding="4">
+                            <StackPanel Width="250" Margin="10,5,10,5">
+                                <TextBlock Text="{Binding id}"/>
+                                <ListBox ItemsSource="{Binding orderItems}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate DataType="OrderItems">
+                                            <TextBlock TextWrapping="Wrap">
+                                    <Run Text="{Binding quantity}"/>
+                                    <Run Text="X"/>
+                                    <Run Text="{Binding itemName}"/>
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                                <Button Width="200" Height="20" Name="Btn_beginOrder" Tag="{Binding id}" Content="Begin Order" Click="Btn_beginOrder_Click" />
+                            </StackPanel>
+                        </Border>
+                    </HierarchicalDataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </StackPanel>
-        <StackPanel Margin="1045,99,77,47.4" Orientation="Vertical">
+        <StackPanel Margin="1011,99,58,48" Orientation="Vertical">
             <TextBlock TextWrapping="Wrap" Text="Completed"  FontSize="25" Margin="0,0,0,35"/>
-            <ListBox x:Name="Lbx_completed" HorizontalAlignment="Left" Height="520" VerticalAlignment="Top" Width="238"/>
+            <ListBox x:Name="Lbx_completed" HorizontalAlignment="Left" Height="508" VerticalAlignment="Top" Width="226" Margin="36,0,0,0">
+                <ListBox.ItemTemplate>
+                    <HierarchicalDataTemplate>
+                        <Border CornerRadius="4"
+                BorderBrush="Gray"
+                Background="White"
+                BorderThickness="1"
+                Padding="4">
+                            <StackPanel Width="210" Margin="10,5,10,5">
+                                <TextBlock Text="{Binding id}"/>
+                                <ListBox ItemsSource="{Binding orderItems}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate DataType="OrderItems">
+                                            <TextBlock TextWrapping="Wrap">
+                                    <Run Text="{Binding quantity}"/>
+                                    <Run Text="X"/>
+                                    <Run Text="{Binding itemName}"/>
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                             </StackPanel>
+                        </Border>
+                    </HierarchicalDataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
 
 
         </StackPanel>

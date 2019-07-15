@@ -23,7 +23,7 @@ namespace Wpf_Restaurant
     {
         System.Globalization.CultureInfo germanCulture = new System.Globalization.CultureInfo("de-de");
         public static ObservableCollection<MenuCard> _menuCard;
-        public static ObservableCollection<MenuCard> _menu;
+        //public static ObservableCollection<MenuCard> _menu;
         public static ObservableCollection<Order> _orders;
         public static ObservableCollection<RestaurantTable> _tables;
         public static ObservableCollection<Order> orderLst;
@@ -39,14 +39,13 @@ namespace Wpf_Restaurant
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             Lbx_items.Visibility = Visibility.Collapsed;
-            var tables = MyStorage.ReadXml<ObservableCollection<RestaurantTable>>("tables.xml");
             string tableCategory = Cbx_tableCategory.SelectedItem.ToString();
             bool isIndoor = false;
             if (tableCategory == "Indoor")
             {
                 isIndoor = true;
             }
-            var selectedCategoryTables = (from t in tables where (t.isIndoor == isIndoor) select t).ToList();
+            var selectedCategoryTables = (from t in App._tables where (t.isIndoor == isIndoor) select t).ToList();
             _tables = new ObservableCollection<RestaurantTable>(selectedCategoryTables);
             _tables.Insert(0, new RestaurantTable { tableNo = "Choose a table" });
             Cbx_tables.ItemsSource = _tables;
@@ -54,12 +53,11 @@ namespace Wpf_Restaurant
             Cbx_itemCategory.ItemsSource = Enum.GetValues(typeof(Category));
             Cbx_itemCategory.SelectedItem = Category.Beverages;
 
-            _menu = MyStorage.ReadXml<ObservableCollection<MenuCard>>("menuCard.xml");
-            if (_menu != null)
-            {
-                var result = (from s in _menu where s.category.ToString() == Cbx_itemCategory.SelectedItem.ToString() select s).ToList();
-                ObservableCollection<MenuCard> myCollection = new ObservableCollection<MenuCard>(result);
 
+            if (App._menu != null)
+            {
+                var result = (from s in App._menu where s.category.ToString() == Cbx_itemCategory.SelectedItem.ToString() select s).ToList();
+                ObservableCollection<MenuCard> myCollection = new ObservableCollection<MenuCard>(result);
                 _menuCard = myCollection;
                 _menuCard.Insert(0, new MenuCard { itemName = "Choose an Item" });
                 Cbx_items.SelectedItem = _menuCard[0];
@@ -75,9 +73,9 @@ namespace Wpf_Restaurant
         {
             string itemCategory = Cbx_itemCategory.SelectedItem.ToString();
 
-            if (_menu != null)
+            if (App._menu != null)
             {
-                var result = (from s in _menu where s.category.ToString() == itemCategory select s).ToList();
+                var result = (from s in App._menu where s.category.ToString() == itemCategory select s).ToList();
                 ObservableCollection<MenuCard> myCollection = new ObservableCollection<MenuCard>(result);
                 _menuCard = myCollection;
                 _menuCard.Insert(0, new MenuCard { itemName = "Choose an Item" });
@@ -99,9 +97,9 @@ namespace Wpf_Restaurant
             }
             else
             {
-                if (_menu != null)
+                if (App._menu != null)
                 {
-                    var result = (from s in _menu where (s.itemName.ToLower().Contains(query) && s.category.ToString() == itemCategory) select s).ToList();
+                    var result = (from s in App._menu where (s.itemName.ToLower().Contains(query) && s.category.ToString() == itemCategory) select s).ToList();
                     ObservableCollection<MenuCard> myCollection = new ObservableCollection<MenuCard>(result);
                     _menuCard = myCollection;
                     Lbx_items.Visibility = Visibility.Visible;
@@ -116,7 +114,7 @@ namespace Wpf_Restaurant
         private void Lbx_items_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string tableNo = (Cbx_tables.SelectedItem as RestaurantTable).tableNo;
-            if(tableNo.Contains("Choose"))
+            if (tableNo.Contains("Choose"))
             {
                 MessageBox.Show("Select the table Number first before creating an order");
                 return;
@@ -127,18 +125,24 @@ namespace Wpf_Restaurant
                 Random rnd = new Random();
                 Tbx_searchItem.Text = item.itemName;
                 var res = (from p in _menuCard where p.itemName == item.itemName select p).FirstOrDefault();
-                orderLst = MyStorage.ReadXml<ObservableCollection<Order>>("orders.xml");
                 int itemId = rnd.Next(0, 99);
-                if (orderLst.Count == 0)
+                   double priceVal;
+
+                        if (double.TryParse(res.priceFormatted, System.Globalization.NumberStyles.Float, germanCulture, out priceVal))
+                        {
+                            double valInGermanFormat = priceVal;
+
+                        }
+                if (App._orders.Count == 0)
                 {
                     if (_orderList == null)
                     {
                         int id = rnd.Next(0, 999);
-                        _orderList = new Order { id = id, orderedDate = DateTime.Now, table = new RestaurantTable { isIndoor = false, isBooked = true, tableNo = "3" }, waiterId = 3, orderItems = new List<OrderItems> { new OrderItems { itemName = res.itemName, allergens = res.allergens, price = res.price, totalQuantityPrice = res.price, quantity = 1, itemId = itemId } } };
+                        _orderList = new Order { id = id, orderedDate = DateTime.Now, table = new RestaurantTable { isIndoor = false, isBooked = true, tableNo = "3" }, waiterId = 3, orderItems = new List<OrderItems> { new OrderItems { itemName = res.itemName, allergens = res.allergens, price = priceVal, totalQuantityPrice = priceVal, quantity = 1, itemId = itemId, category = res.category.ToString() } } };
                     }
                     else
                     {
-                        _orderList.orderItems.Add(new OrderItems { itemName = res.itemName, allergens = res.allergens, price = res.price, totalQuantityPrice = res.price, quantity = 1, itemId = itemId });
+                        _orderList.orderItems.Add(new OrderItems { itemName = res.itemName, allergens = res.allergens, price = priceVal, totalQuantityPrice = priceVal, quantity = 1, itemId = itemId, category = res.category.ToString() });
                     }
 
                     var updatedOrdr = _orderList.orderItems;
@@ -147,18 +151,20 @@ namespace Wpf_Restaurant
                 }
                 else
                 {
-                    ObservableCollection<Order> orderList = new ObservableCollection<Order>(orderLst);
+                    ObservableCollection<Order> orderList = new ObservableCollection<Order>(App._orders);
                     _orderList = (from o in orderList where o.table.tableNo == Cbx_tables.SelectedItem.ToString() select o).FirstOrDefault();
                     if (_orderList != null)
                     {
-                        _orderList.orderItems.Add(new OrderItems { itemName = res.itemName, allergens = res.allergens, price = res.price, totalQuantityPrice = res.price, quantity = 1, itemId = itemId });
+                        _orderList.orderItems.Add(new OrderItems { itemName = res.itemName, allergens = res.allergens, price = priceVal, totalQuantityPrice = priceVal, quantity = 1, itemId = itemId , category = res.category.ToString() });
                         var updatedOrdr = _orderList.orderItems;
 
                     }
                     else
                     {
                         int id = rnd.Next(0, 999);
-                        _orderList = new Order { id = id, orderedDate = DateTime.Now, table = new RestaurantTable { isIndoor = false, isBooked = true, tableNo = "3" }, waiterId = 3, orderItems = new List<OrderItems> { new OrderItems { itemName = res.itemName, allergens = res.allergens, price = res.price, totalQuantityPrice = res.price, quantity = 1, itemId = itemId } } };
+                     
+                            
+                        _orderList = new Order { id = id, orderedDate = DateTime.Now, table = new RestaurantTable { isIndoor = false, isBooked = true, tableNo = "3" }, waiterId = 3, orderItems = new List<OrderItems> { new OrderItems { itemName = res.itemName, allergens = res.allergens, price = priceVal, totalQuantityPrice = priceVal, quantity = 1, itemId = itemId, category = res.category.ToString() } } };
                     }
                     Lbx_order.Visibility = Visibility.Visible;
                     Lbx_order.ItemsSource = null;
@@ -188,15 +194,21 @@ namespace Wpf_Restaurant
                     }
                     Random rnd = new Random();
                     Cbx_items.SelectedItem = item.itemName;
-                    var res = (from p in _menuCard where p.itemName == item.itemName select p).FirstOrDefault();
-                    orderLst = MyStorage.ReadXml<ObservableCollection<Order>>("orders.xml");
-                    int itemId = rnd.Next(0, 99);
+                    var res = (from p in App._menu where p.itemName == item.itemName select p).FirstOrDefault();
 
-                    ObservableCollection<Order> orderList = new ObservableCollection<Order>(orderLst);
+                    double priceVal;
+
+                    if (double.TryParse(res.priceFormatted, System.Globalization.NumberStyles.Float, germanCulture, out priceVal))
+                    {
+                        double valInGermanFormat = priceVal;
+
+                    }
+                    ObservableCollection<Order> orderList = new ObservableCollection<Order>(App._orders);
                     var list = (from o in orderList where o.table.tableNo == tableNo select o).FirstOrDefault();
                     if (list != null)
                     {
-                        list.orderItems.Add(new OrderItems { itemName = res.itemName, allergens = res.allergens, price = res.price, totalQuantityPrice = res.price, quantity = 1, itemId = itemId });
+                        int itemId = rnd.Next(0, 99);
+                        list.orderItems.Add(new OrderItems { itemName = res.itemName, allergens = res.allergens, price = priceVal, totalQuantityPrice = priceVal, quantity = 1, itemId = itemId,category= res.category.ToString() });
                         _orderList = list;
                         Lbx_order.Visibility = Visibility.Visible;
                         Lbx_order.ItemsSource = null;
@@ -204,14 +216,15 @@ namespace Wpf_Restaurant
                     }
                     else
                     {
+                        int itemId = rnd.Next(0, 99);
                         if (_orderList != null)
                         {
-                            _orderList.orderItems.Add(new OrderItems { itemName = res.itemName, allergens = res.allergens, price = res.price, totalQuantityPrice = res.price, quantity = 1, itemId = itemId });
+                            _orderList.orderItems.Add(new OrderItems { itemName = res.itemName, allergens = res.allergens, price = priceVal, totalQuantityPrice = priceVal, quantity = 1, itemId = itemId,category = res.category.ToString() });
                         }
                         else
                         {
                             int id = rnd.Next(0, 999);
-                            _orderList = new Order { id = id, orderedDate = DateTime.Now, table = new RestaurantTable { tableNo = tableNo }, orderItems = new List<OrderItems> { new OrderItems { itemName = res.itemName, allergens = res.allergens, price = res.price, quantity = 1 } } };
+                            _orderList = new Order { id = id, orderedDate = DateTime.Now, table = new RestaurantTable { tableNo = tableNo }, orderItems = new List<OrderItems> { new OrderItems { itemName = res.itemName, allergens = res.allergens, price = priceVal,totalQuantityPrice = priceVal, quantity = 1 , category = res.category.ToString() } } };
 
                         }
                         Lbx_order.Visibility = Visibility.Visible;
@@ -331,44 +344,44 @@ namespace Wpf_Restaurant
 
         private void Btn_placeOrder_Click(object sender, RoutedEventArgs e)
         {
-            _orders = MyStorage.ReadXml<ObservableCollection<Order>>("orders.xml");
             string orderButtonName = (sender as Button).Content.ToString();
             string orderTagName = (sender as Button).Tag.ToString();
             int orderId = int.Parse(orderTagName);
             if (orderButtonName.Contains("Place"))
             {
                 _orderList.table.isBooked = true;
-                _orders.Add(_orderList);
+                App._orders.Add(_orderList);
+                Btn_reassignTable.Visibility = Visibility.Visible;
                 Btn_placeOrder.Content = "Update Order";
             }
             else
             {
-                foreach (var order in _orders)
+                foreach (var order in App._orders)
                 {
                     if (order.id == orderId)
                     {
-                        _orders.Remove(order);
-                        _orders.Add(_orderList);
+                        App._orders.Remove(order);
+                        App._orders.Add(_orderList);
                         break;
                     }
                 }
 
             }
-            MyStorage.WriteXml<ObservableCollection<Order>>(_orders, "orders.xml");
+            MyStorage.WriteXml<ObservableCollection<Order>>(App._orders, "orders.xml");
             _orderList = null;
             MessageBox.Show("Order Placed Successfully!", "Success", MessageBoxButton.OK);
         }
 
         private void Cbx_tableCategory_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var tables = MyStorage.ReadXml<ObservableCollection<RestaurantTable>>("tables.xml");
+            Btn_placeOrder.Content = "Place Order";
             string tableCategory = Cbx_tableCategory.SelectedItem.ToString();
             bool isIndoor = false;
             if (tableCategory.Contains("Indoor"))
             {
                 isIndoor = true;
             }
-            var selectedCategoryTables = (from t in tables where t.isIndoor == isIndoor select t).ToList();
+            var selectedCategoryTables = (from t in App._tables where t.isIndoor == isIndoor select t).ToList();
             _tables = new ObservableCollection<RestaurantTable>(selectedCategoryTables);
             _tables.Insert(0, new RestaurantTable { tableNo = "Choose a table" });
             Cbx_tables.ItemsSource = _tables;
@@ -377,20 +390,29 @@ namespace Wpf_Restaurant
 
         private void Cbx_tables_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            Btn_placeOrder.Content = "Place Order";
             if (Cbx_tables.SelectedItem != null)
             {
                 _orderList = null;
                 var tables = (Cbx_tables.SelectedItem as RestaurantTable).tableNo;
                 if (tables.Contains("Choose"))
                 {
+                    //Btn_reassignTable.Visibility = Visibility.Collapsed;
                     return;
                 }
                 else
                 {
-                    var list = MyStorage.ReadXml<ObservableCollection<Order>>("orders.xml");
-                    var res = (from o in list where o.table.tableNo == tables select o).FirstOrDefault();
+                    var res = (from o in App._orders where o.table.tableNo == tables select o).FirstOrDefault();
                     if (res != null)
+                    {
                         Lbx_order.ItemsSource = res.orderItems;
+                        Btn_reassignTable.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        Lbx_order.ItemsSource = null;
+                        Btn_reassignTable.Visibility = Visibility.Collapsed;
+                    }
                 }
             }
         }

@@ -27,9 +27,9 @@ namespace Wpf_Restaurant
 
         private void Btn_startApp_Click(object sender, RoutedEventArgs e)
         {
-            //var waiterWin = new Waiter();
-            //waiterWin.Owner = this;
-            //waiterWin.Show();
+            var waiterWin = new Waiter();
+            waiterWin.Owner = this;
+            waiterWin.Show();
 
             var kitchenWin = new Kitchen();
             kitchenWin.Owner = this;
