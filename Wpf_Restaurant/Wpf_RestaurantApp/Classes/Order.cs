@@ -55,26 +55,25 @@ namespace Wpf_Restaurant
 
         public int quantity { get; set; }
 
-        [XmlIgnore]
-        public double price { get; set; }
+        public string price { get; set; }
 
-        [XmlElement("price")]
-        public string priceFormatted
-        {
-            get { return price.ToString(System.Globalization.CultureInfo.CurrentCulture); }
-            set { price = double.Parse(value, System.Globalization.CultureInfo.CurrentCulture); }
-        }
+        //[XmlElement("price")]
+        //public string priceFormatted
+        //{
+        //    get { return price.ToString(System.Globalization.CultureInfo.CurrentCulture); }
+        //    set { price = double.Parse(value, System.Globalization.CultureInfo.CurrentCulture); }
+        //}
 
-        [XmlIgnore]
-        public double totalQuantityPrice { get; set; }
+        
+        public string totalQuantityPrice { get; set; }
 
 
-        [XmlElement("totalQuantityPrice")]
-        public string totalQuantityPriceFormatted
-        {
-            get { return totalQuantityPrice.ToString(System.Globalization.CultureInfo.CurrentCulture); }
-            set { totalQuantityPrice = double.Parse(value, System.Globalization.CultureInfo.CurrentCulture); }
-        }
+        //[XmlElement("totalQuantityPrice")]
+        //public string totalQuantityPriceFormatted
+        //{
+        //    get { return totalQuantityPrice.ToString(System.Globalization.CultureInfo.CurrentCulture); }
+        //    set { totalQuantityPrice = double.Parse(value, System.Globalization.CultureInfo.CurrentCulture); }
+        //}
 
        
     }

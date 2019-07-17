@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wpf_Restaurant"
         mc:Ignorable="d"
-        Title="Taj Restaurant" Height="300" Width="350">
+        Title="TAJ RESTAURANT" Height="300" Width="350">
     <Grid>
         <TextBlock HorizontalAlignment="Left" Foreground="#d4546f" TextWrapping="Wrap" VerticalAlignment="Top" Margin="32,26,0,0">
             <Run Text="Enter the Customization"></Run>

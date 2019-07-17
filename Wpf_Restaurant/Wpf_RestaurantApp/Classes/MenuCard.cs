@@ -20,15 +20,14 @@ namespace Wpf_Restaurant
 
         public string description { get; set; }
 
-        [XmlIgnore]
         public double price { get; set; }
 
-        [XmlElement("price")]
-        public string priceFormatted
-        {
-            get { return price.ToString(System.Globalization.CultureInfo.CurrentCulture); }
-            set { price = double.Parse(value, System.Globalization.CultureInfo.CurrentCulture); }
-        }
+        //[XmlElement("price")]
+        //public string priceFormatted
+        //{
+        //    get { return price.ToString(System.Globalization.CultureInfo.CurrentCulture); }
+        //    set { price = double.Parse(value, System.Globalization.CultureInfo.CurrentCulture); }
+        //}
 
         public bool isVeg { get; set; }
 

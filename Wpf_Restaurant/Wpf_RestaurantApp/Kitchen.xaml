@@ -6,27 +6,8 @@
         xmlns:local="clr-namespace:Wpf_Restaurant"
         mc:Ignorable="d"
         Loaded="Window_Loaded"
-        
-        
-        Title="Kitchen" Height="756" Width="1366">
-    <!--<Window.Resources>
-        <DataTemplate x:Key="ItemTemplate1">
-            <StackPanel>
-                <TextBlock Text="{Binding id}"/>
-            </StackPanel>
-        </DataTemplate>
-        <DataTemplate x:Key="ItemTemplate2">
-            <StackPanel>
-                <TextBlock Text="{Binding itemName}"/>
-            </StackPanel>
-        </DataTemplate>
-    </Window.Resources>
-    <Grid x:Name="LayoutRoot">
-        <ListBox x:Name="Order" ItemTemplate="{DynamicResource ItemTemplate1}" ItemsSource="{Binding Order}" >
-            <ListBox x:Name="OrderItems"  DataContext="{Binding SelectedItem, ElementName=Order}" ItemsSource="{Binding OrderItems}" ItemTemplate="{DynamicResource ItemTemplate2}" />
-            <TextBlock  x:Name="OrderItem"   DataContext="{Binding SelectedItem, ElementName=OrderItems}"  Text="{Binding itemName }" />
-        </ListBox>
-    </Grid>-->
+        Title="TAJ RESTAURANT" Height="756" Width="1366">
+    
     <Grid Margin="2,0,-2,0.4">
         <Grid.Resources>
             <!--<local:BoolToString x:Key="cB2S">
