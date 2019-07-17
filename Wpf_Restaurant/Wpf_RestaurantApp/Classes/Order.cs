@@ -29,6 +29,14 @@ namespace Wpf_Restaurant
 
         public Status dessertsStatus { get; set; }
 
+        public string chefName { get; set; }
+
+        public string chefColor { get; set; }
+
+        public Category categoryTitle { get; set; }
+
+        public int avgCookingTime { get; set; }
+
     }
 
     public class OrderItems
@@ -67,6 +75,8 @@ namespace Wpf_Restaurant
             get { return totalQuantityPrice.ToString(System.Globalization.CultureInfo.CurrentCulture); }
             set { totalQuantityPrice = double.Parse(value, System.Globalization.CultureInfo.CurrentCulture); }
         }
+
+       
     }
 
     public enum Status

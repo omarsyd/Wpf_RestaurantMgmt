@@ -126,13 +126,13 @@ namespace Wpf_Restaurant
                 Tbx_searchItem.Text = item.itemName;
                 var res = (from p in _menuCard where p.itemName == item.itemName select p).FirstOrDefault();
                 int itemId = rnd.Next(0, 99);
-                   double priceVal;
+                double priceVal;
 
-                        if (double.TryParse(res.priceFormatted, System.Globalization.NumberStyles.Float, germanCulture, out priceVal))
-                        {
-                            double valInGermanFormat = priceVal;
+                if (double.TryParse(res.priceFormatted, System.Globalization.NumberStyles.Float, germanCulture, out priceVal))
+                {
+                    double valInGermanFormat = priceVal;
 
-                        }
+                }
                 if (App._orders.Count == 0)
                 {
                     if (_orderList == null)
@@ -155,15 +155,15 @@ namespace Wpf_Restaurant
                     _orderList = (from o in orderList where o.table.tableNo == Cbx_tables.SelectedItem.ToString() select o).FirstOrDefault();
                     if (_orderList != null)
                     {
-                        _orderList.orderItems.Add(new OrderItems { itemName = res.itemName, allergens = res.allergens, price = priceVal, totalQuantityPrice = priceVal, quantity = 1, itemId = itemId , category = res.category.ToString() });
+                        _orderList.orderItems.Add(new OrderItems { itemName = res.itemName, allergens = res.allergens, price = priceVal, totalQuantityPrice = priceVal, quantity = 1, itemId = itemId, category = res.category.ToString() });
                         var updatedOrdr = _orderList.orderItems;
 
                     }
                     else
                     {
                         int id = rnd.Next(0, 999);
-                     
-                            
+
+
                         _orderList = new Order { id = id, orderedDate = DateTime.Now, table = new RestaurantTable { isIndoor = false, isBooked = true, tableNo = "3" }, waiterId = 3, orderItems = new List<OrderItems> { new OrderItems { itemName = res.itemName, allergens = res.allergens, price = priceVal, totalQuantityPrice = priceVal, quantity = 1, itemId = itemId, category = res.category.ToString() } } };
                     }
                     Lbx_order.Visibility = Visibility.Visible;
@@ -182,16 +182,6 @@ namespace Wpf_Restaurant
                 MenuCard item = Cbx_items.SelectedItem as MenuCard;
                 if (item != null && item.itemName != "Choose an Item")
                 {
-                    bool hasAlcohol = false;
-                    if (Ckbx_hasAlcohol.IsChecked == true)
-                    {
-                        hasAlcohol = true;
-                    }
-                    bool isVegetarian = false;
-                    if (Ckbk_vegetarian.IsChecked == true)
-                    {
-                        isVegetarian = true;
-                    }
                     Random rnd = new Random();
                     Cbx_items.SelectedItem = item.itemName;
                     var res = (from p in App._menu where p.itemName == item.itemName select p).FirstOrDefault();
@@ -208,7 +198,7 @@ namespace Wpf_Restaurant
                     if (list != null)
                     {
                         int itemId = rnd.Next(0, 99);
-                        list.orderItems.Add(new OrderItems { itemName = res.itemName, allergens = res.allergens, price = priceVal, totalQuantityPrice = priceVal, quantity = 1, itemId = itemId,category= res.category.ToString() });
+                        list.orderItems.Add(new OrderItems { itemName = res.itemName, allergens = res.allergens, price = priceVal, totalQuantityPrice = priceVal, quantity = 1, itemId = itemId, category = res.category.ToString() });
                         _orderList = list;
                         Lbx_order.Visibility = Visibility.Visible;
                         Lbx_order.ItemsSource = null;
@@ -219,12 +209,12 @@ namespace Wpf_Restaurant
                         int itemId = rnd.Next(0, 99);
                         if (_orderList != null)
                         {
-                            _orderList.orderItems.Add(new OrderItems { itemName = res.itemName, allergens = res.allergens, price = priceVal, totalQuantityPrice = priceVal, quantity = 1, itemId = itemId,category = res.category.ToString() });
+                            _orderList.orderItems.Add(new OrderItems { itemName = res.itemName, allergens = res.allergens, price = priceVal, totalQuantityPrice = priceVal, quantity = 1, itemId = itemId, category = res.category.ToString() });
                         }
                         else
                         {
                             int id = rnd.Next(0, 999);
-                            _orderList = new Order { id = id, orderedDate = DateTime.Now, table = new RestaurantTable { tableNo = tableNo }, orderItems = new List<OrderItems> { new OrderItems { itemName = res.itemName, allergens = res.allergens, price = priceVal,totalQuantityPrice = priceVal, quantity = 1 , category = res.category.ToString() } } };
+                            _orderList = new Order { id = id, orderedDate = DateTime.Now, table = new RestaurantTable { tableNo = tableNo }, orderItems = new List<OrderItems> { new OrderItems { itemName = res.itemName, allergens = res.allergens, price = priceVal, totalQuantityPrice = priceVal, quantity = 1, category = res.category.ToString() } } };
 
                         }
                         Lbx_order.Visibility = Visibility.Visible;

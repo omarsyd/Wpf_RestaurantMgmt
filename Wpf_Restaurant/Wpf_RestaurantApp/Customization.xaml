@@ -7,13 +7,13 @@
         mc:Ignorable="d"
         Title="Taj Restaurant" Height="300" Width="350">
     <Grid>
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="32,26,0,0">
-            <Run Text="Enter the Customization for "></Run>
+        <TextBlock HorizontalAlignment="Left" Foreground="#d4546f" TextWrapping="Wrap" VerticalAlignment="Top" Margin="32,26,0,0">
+            <Run Text="Enter the Customization"></Run>
             <Run Text="{Binding itemName}"></Run>
         </TextBlock>
         <TextBox HorizontalAlignment="Right" TextWrapping="Wrap"  VerticalAlignment="Bottom" Margin="0,0,42,113.4" Height="103" Width="273" Text="{Binding customization}"/>
-        <Button Content="Save and Close" HorizontalAlignment="Left" Margin="203,179,0,0" VerticalAlignment="Top" Width="97" Name="Btn_saveCustomization" Click="Btn_saveCustomization_Click"/>
-        <Button Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Top" Width="74" Margin="110,180,0,0" Name="Btn_cancelCustomization" Click="Btn_cancelCustomization_Click"/>
+        <Button Content="Save and Close" HorizontalAlignment="Left" Margin="203,179,0,0" VerticalAlignment="Top" Width="97" Name="Btn_saveCustomization" Click="Btn_saveCustomization_Click" Background="#d4546f" Foreground="White"/>
+        <Button Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Top" Width="74" Margin="110,180,0,0" Name="Btn_cancelCustomization" Click="Btn_cancelCustomization_Click" Background="#d4546f" Foreground="White"/>
 
     </Grid>
 </Window>

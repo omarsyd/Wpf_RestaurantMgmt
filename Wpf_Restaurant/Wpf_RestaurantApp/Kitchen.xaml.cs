@@ -26,22 +26,41 @@ namespace Wpf_Restaurant
         public static ObservableCollection<Order> _inProgressOrders;
         public static ObservableCollection<Order> _completedOrders;
         DispatcherTimer timer = new DispatcherTimer();
+        DispatcherTimer _timer;
+        TimeSpan _time;
         bool isVisible;
-        bool chefChanged;
+
         public Kitchen()
         {
             InitializeComponent();
-            timer.Interval = TimeSpan.FromSeconds(2);
-            timer.Tick += Timer_Tick;
-            timer.Start();
+            //timer.Interval = TimeSpan.FromSeconds(2);
+            //timer.Tick += Timer_Tick;
+            //timer.Start();
+            _time = TimeSpan.FromSeconds(10);
+
+            _timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
+            {
+                //TbName.Text = _time.ToString("c");
+                if (_time == TimeSpan.Zero) _timer.Stop();
+                _time = _time.Add(TimeSpan.FromSeconds(-1));
+            }, Application.Current.Dispatcher);
+
+            _timer.Start();
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
             if (isVisible)
-                Tblk_restaurantName.Visibility = Visibility.Visible;
+            {
+                Lbx_completed.Visibility = Visibility.Visible;
+                Lbx_completed.Background = Brushes.Red;
+            }
             else
-                Tblk_restaurantName.Visibility = Visibility.Hidden;
+            {
+                Lbx_completed.Visibility = Visibility.Hidden;
+                Lbx_completed.Background = Brushes.White;
+
+            }
 
             isVisible = !isVisible;
         }
@@ -49,136 +68,104 @@ namespace Wpf_Restaurant
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             var allOrders = App._orders;
-            var inQueue = from p in allOrders where (p.appetizerStatus == Status.InQueue) && (p.appetizerStatus == Status.InQueue) select p;
-            var inProgress1 = from p in allOrders where (p.appetizerStatus == Status.InProgress) || (p.mainCourseStatus == Status.InProgress) select p;
-            var inProgress2 = from p in allOrders where (p.appetizerStatus == Status.InProgress) || (p.mainCourseStatus == Status.InProgress) select p;
+            var inQueue = from p in allOrders where (p.appetizerStatus == Status.InQueue) && (p.mainCourseStatus == Status.InQueue) select p;
+            var inProgress = from p in allOrders where (p.appetizerStatus == Status.InProgress) || (p.mainCourseStatus == Status.InProgress) select p;
+            var _completed = from p in allOrders where (p.appetizerStatus == Status.Ready) || (p.mainCourseStatus == Status.Ready) select p;
             List<Order> ordersList = new List<Order>();
             Order eachOrder = new Order();
             List<OrderItems> orderItems = new List<OrderItems>();
+
             foreach (var order in inQueue)
             {
-                eachOrder = null;
-                eachOrder = order;
-                foreach (var orderItem in order.orderItems)
-                {
-                    if (orderItem.category == "Appetizers" || orderItem.category == "MainCourse")
-                    {
-                        orderItems.Add(orderItem);
-                    }
+                var appetizersAndMaincourse = (from p in order.orderItems where (p.category == Category.Appetizers.ToString()) || (p.category == Category.MainCourse.ToString()) select p).ToList();
 
-                }
-                eachOrder.orderItems = null;
-                if (orderItems.Count != 0)
+
+                if (appetizersAndMaincourse.Count != 0)
                 {
-                    eachOrder.orderItems = orderItems;
+                    eachOrder = order;
+                    eachOrder.orderItems = appetizersAndMaincourse;
                     ordersList.Add(eachOrder);
+                    eachOrder = new Order();
                 }
-
-
 
             }
             _inQueueOrders = new ObservableCollection<Order>(ordersList);
             Lbx_inQueue.ItemsSource = _inQueueOrders;
 
-            //#region inProgress Not Working
-            //List<Order> orderList2 = new List<Order>();
 
-            //Order eachOrder1 = new Order();
-            //Order eachOrder2 = new Order();
-            //List<OrderItems> orderItems1 = new List<OrderItems>();
-            //List<OrderItems> orderItems2 = new List<OrderItems>();
-            //foreach(var order in inProgress1)
-            //{
-            //    foreach(var orderItem in order.orderItems)
-            //    {
-            //        if(orderItem.category == "Appetizers")
-            //        {
-            //            orderItems1.Add(orderItem);
-            //        }
-            //    }
-            //    if (orderItems1.Count != 0)
-            //    {
-            //        eachOrder1 = order;
-            //        eachOrder1.orderItems = null;
-            //        eachOrder1.orderItems = orderItems1;
-            //        orderList2.Add(eachOrder1);
-            //    }
 
-            //}
-
-            //foreach(var order in inProgress2)
-            //{
-            //    foreach(var orderItem in order.orderItems)
-            //    {
-            //        if(orderItem.category == "MainCourse")
-            //        {
-            //            orderItems2.Add(orderItem);
-            //        }
-            //    }
-            //    if(orderItems2.Count !=0)
-            //    {
-            //        eachOrder2 = order;
-            //        eachOrder2.orderItems = null;
-            //        eachOrder2.orderItems = orderItems2;
-            //        orderList2.Add(eachOrder2);
-            //    }
-            //}
-
-            //_inProgressOrders = new ObservableCollection<Order>(orderList2);
-            //#endregion
-            _inProgressOrders = new ObservableCollection<Order>(inProgress1);
+            _inProgressOrders = new ObservableCollection<Order>(inProgress);
             Lbx_inProgress.ItemsSource = _inProgressOrders;
+
+            _completedOrders = new ObservableCollection<Order>(_completed);
+            Lbx_completed.ItemsSource = _completedOrders;
+
+
         }
 
-        //private void Cbx_assignChef_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    var chefId = (sender as ComboBox).Text.ToString();
-        //    if (chefId != "Choose Chef")
-        //    {
-        //        var item = (sender as ComboBox).Tag.ToString();
-        //        chefChanged = true;
-        //        _inProgressOrders = new ObservableCollection<Order>();
-        //        int orderId = int.Parse(item);
-        //        foreach (var order in _inQueueOrders)
-        //        {
-        //            if (order.id == orderId)
-        //            {
-        //order.appetizerStatus = Status.InProgress;
-        //order.mainCourseStatus = Status.InProgress;
-        //            _inQueueOrders.Remove(order);
-        //            _inProgressOrders.Add(order);
-        //            Lbx_inProgress.ItemsSource = _inProgressOrders;
-        //            break;
-        //            }
-        //        }
-
-
-        //    }
-
-        //}
-
-
-
-
-        private void Lbx_order_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void Cbx_assignChef_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //_inProgressOrders = new ObservableCollection<Order>();
-            var item = (sender as StackPanel).Tag.ToString();
-            int orderId = int.Parse(item);
-            foreach (var order in _inQueueOrders)
+
+            if (Lbx_inQueue.SelectedItem == null)
             {
-                if (order.id == orderId)
-                {
-                    order.appetizerStatus = Status.InProgress;
-                    order.mainCourseStatus = Status.InProgress;
-                    _inQueueOrders.Remove(order);
-                    _inProgressOrders.Add(order);
-                    Lbx_inProgress.ItemsSource = _inProgressOrders;
-                    break;
-                }
+                return;
             }
 
+            var chefId = (sender as ComboBox).Text.ToString();
+
+            if (chefId != "Choose Chef")
+            {
+                List<Order> orderList = new List<Order>();
+
+                var selectedOrder = Lbx_inQueue.SelectedItem as Order;
+
+                //#region notworking
+                //            Order appetizerOrder =  selectedOrder;
+                //            Order mainCourseOrder =  selectedOrder;
+                //            var appetizers = (from a in selectedOrder.orderItems where (a.category == Category.Appetizers.ToString()) select a).ToList();
+                //            var mainCourse = (from m in selectedOrder.orderItems where m.category == Category.MainCourse.ToString() select m).ToList();
+
+                //                if (appetizers.Count != 0)
+                //                {
+                //                  appetizerOrder.orderItems = appetizers;
+                //                   appetizerOrder.appetizerStatus = Status.InProgress;
+                //                   _inProgressOrders.Add(appetizerOrder);
+
+                //                }
+                //                if (mainCourse.Count != 0)
+                //                {
+                //                   mainCourseOrder.orderItems = mainCourse;
+                //                    mainCourseOrder.mainCourseStatus = Status.InProgress;
+                //                    orderList.Add(mainCourseOrder);
+                //                }
+
+
+                //            #endregion
+                string color = "";
+                switch(chefId)
+                {
+                    case "OSyed": color = "#DEFDE0";
+                        break;
+                    case "GLahare": color = "#F0DEFD";
+                        break;
+                }
+              
+                Order o1 = new Order { id = 26, chefName = chefId,chefColor=color, avgCookingTime = 25, categoryTitle = Category.Appetizers, orderItems = new List<OrderItems> { new OrderItems { quantity = 1, itemId = 29, itemName = "Mulligatawny Soup " }, new OrderItems { quantity = 1, itemId = 29, itemName = "Vegetable Samosa" }, new OrderItems { quantity = 1, itemId = 29, itemName = "Mulligatawny Soup " } } };
+                Order o2 = new Order { id = 26, chefName = chefId, chefColor = color,avgCookingTime = 15, categoryTitle = Category.MainCourse, orderItems = new List<OrderItems> { new OrderItems { quantity = 1, itemId = 56, itemName = "Fish Curry" } } };
+                _inProgressOrders.Add(o1);
+                _inProgressOrders.Add(o2);
+
+                _inQueueOrders.Remove(selectedOrder);
+                Lbx_inProgress.ItemsSource = null;
+                Lbx_inProgress.ItemsSource = _inProgressOrders;
+
+
+
+            }
+
+
         }
+
 
         private void Btn_beginOrder_Click(object sender, RoutedEventArgs e)
         {
@@ -196,9 +183,9 @@ namespace Wpf_Restaurant
             {
                 string oId = (sender as Button).Tag.ToString();
                 int orderId = int.Parse(oId);
-                foreach(var order in _inProgressOrders)
+                foreach (var order in _inProgressOrders)
                 {
-                    if(order.id == orderId)
+                    if (order.id == orderId)
                     {
                         _inProgressOrders.Remove(order);
                         order.appetizerStatus = Status.Ready;
@@ -212,5 +199,7 @@ namespace Wpf_Restaurant
             }
 
         }
+
+
     }
 }

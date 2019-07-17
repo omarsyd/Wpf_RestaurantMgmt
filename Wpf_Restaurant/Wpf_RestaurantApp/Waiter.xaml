@@ -5,19 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wpf_Restaurant"
         mc:Ignorable="d" Loaded="Window_Loaded"
-        Title="TAJ RESTAURANT" Height="1024" Width="600">
-    <Grid Height="940" VerticalAlignment="Top" HorizontalAlignment="Center" Width="595" Margin="-1,0,-0.4,-3.2">
-        <StackPanel Margin="10,6,0,0" Orientation="Horizontal" Height="54" VerticalAlignment="Top" HorizontalAlignment="Left" Width="574" Background="#d4546f">
-            <Image HorizontalAlignment="Right" Height="39" VerticalAlignment="Top" Width="108" Margin="0,6,0,0"/>
-            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="TAJ RESTAURANT" VerticalAlignment="Bottom" Margin="0,0,0,13.4" Height="38" Width="268" FontWeight="Bold" FontSize="28" TextAlignment="Center" Foreground="White"/>
-            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,23,0,0" Foreground="White" RenderTransformOrigin="0.879,0.631" Width="63"><Run Text="Waiter ID:"/></TextBlock>
-            <TextBlock TextWrapping="Wrap" Text="{Binding waiterId}" x:Name="Tbk_waiterId"  Width="38" HorizontalAlignment="Left" Margin="0,23,0,3.2"/>
-            <Button Content="Logout" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="65" Margin="0,0,0,15.4" Height="20" RenderTransformOrigin="0.585,0.316"/>
+        Title="TAJ RESTAURANT" Height="883.6" Width="600">
+    <Grid Height="854" VerticalAlignment="Top" HorizontalAlignment="Center" Width="595" Margin="-1,0,-0.4,-0.4">
+        <StackPanel Orientation="Horizontal" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Width="595" Background="#d4546f">
+            <Image HorizontalAlignment="Right" Height="49" VerticalAlignment="Top" Width="103" Margin="0,6,0,0" Source="C:\Users\Anglita\Source\Repos\Wpf_RestaurantMgmt\Wpf_Restaurant\Wpf_RestaurantApp\bin\Debug\restaurantLogo.png"/>
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="TAJ RESTAURANT" VerticalAlignment="Bottom" Margin="0,0,0,13" Height="38" Width="268" FontWeight="Bold" FontSize="28" TextAlignment="Center" Foreground="White"/>
+            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,35,0,0" Foreground="White" RenderTransformOrigin="0.879,0.631" Width="100" Height="15" TextAlignment="Right"><Run Text="Waiter Id:"/></TextBlock>
+            <TextBlock TextWrapping="Wrap" Text="{Binding waiterId}" x:Name="Tbk_waiterId"  Width="38" HorizontalAlignment="Left" Margin="0,23,0,3" Foreground="White"/>
+            <Button Content="Logout" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="65" Margin="0,0,0,5" Height="20" Foreground="#d4546f" />
         </StackPanel>
 
 
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Table No." VerticalAlignment="Top" Margin="27,75,0,0"/>
-        <ComboBox HorizontalAlignment="Right" Name="Cbx_tables" VerticalAlignment="Top" Width="198" Margin="0,96,372,0"  SelectionChanged="Cbx_tables_SelectionChanged" Background="">
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Table No." VerticalAlignment="Top" Margin="27,75,0,0" Foreground="#d4546f"/>
+        <ComboBox HorizontalAlignment="Right" Name="Cbx_tables" VerticalAlignment="Top" Width="198" Margin="0,96,372,0"  SelectionChanged="Cbx_tables_SelectionChanged" Background="White">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock TextWrapping="Wrap">
@@ -26,12 +26,12 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Item Category" VerticalAlignment="Top" Margin="23,139,0,0"/>
-        <ComboBox HorizontalAlignment="Left" Name="Cbx_itemCategory" VerticalAlignment="Top" Width="199" Margin="26,161,0,0" Foreground="White" SelectionChanged="Cbx_itemCategory_SelectionChanged"/>
-        <TextBlock Text="Choose Item" Margin="0,200,372,0"  Width="199" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Item Category" VerticalAlignment="Top" Margin="23,139,0,0" Foreground="#d4546f"/>
+        <ComboBox HorizontalAlignment="Left" Name="Cbx_itemCategory" VerticalAlignment="Top" Width="199" Margin="26,161,0,0" SelectionChanged="Cbx_itemCategory_SelectionChanged" Background="White"/>
+        <TextBlock Text="Choose Item" Margin="0,200,372,0"  Width="199" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right" Foreground="#d4546f"/>
         <TextBox HorizontalAlignment="Left" Height="23" Name="Tbx_searchItem" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="259" Margin="299,221,0,0"  KeyUp="Txb_searchItem_KeyUp"/>
 
-        <ListBox Name="Lbx_items" Margin="0,0,37,593" Height="124" VerticalAlignment="Bottom"  Panel.ZIndex="150" SelectionChanged="Lbx_items_SelectionChanged" HorizontalAlignment="Right" Width="259" Visibility="Collapsed" >
+        <ListBox Name="Lbx_items" Margin="300,0,0,486" Height="124" VerticalAlignment="Bottom"  Panel.ZIndex="150" SelectionChanged="Lbx_items_SelectionChanged" HorizontalAlignment="Left" Width="259"  >
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock>
@@ -44,7 +44,7 @@
             </ListBox.ItemTemplate>
 
         </ListBox>
-        <ComboBox HorizontalAlignment="Left" Name="Cbx_items" VerticalAlignment="Bottom" Width="198" Margin="25,0,0,696" SelectionChanged="Cbx_items_SelectionChanged">
+        <ComboBox HorizontalAlignment="Left" Name="Cbx_items" VerticalAlignment="Bottom" Width="198" Margin="25,0,0,612" SelectionChanged="Cbx_items_SelectionChanged" Background="White">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock TextWrapping="Wrap">
@@ -53,51 +53,51 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Or" VerticalAlignment="Top" RenderTransformOrigin="1.51,4.944" Margin="256,226,0,0"/>
-        <ListBox HorizontalAlignment="Left" Width="535" Margin="27,291,0,251" Name="Lbx_order"  >
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Or" VerticalAlignment="Top" RenderTransformOrigin="1.51,4.944" Margin="256,226,0,0" Foreground="#d4546f"/>
+        <ListBox HorizontalAlignment="Left" Width="535" Margin="27,287,0,176" Name="Lbx_order"  >
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" Width="530" Height="30">
                         <StackPanel Orientation="Vertical" Width="240" >
-                            <TextBlock TextWrapping="Wrap" Width="240">
+                            <TextBlock TextWrapping="Wrap" Width="240" Foreground="#d4546f">
                             <Run Text="{Binding itemName,Mode=TwoWay}"/>
                             </TextBlock>
-                            <TextBlock TextWrapping="Wrap" Text="{Binding allergens,Mode=TwoWay}" FontStyle="Italic" Width="250"></TextBlock>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding allergens,Mode=TwoWay}" FontStyle="Italic" Width="250" Foreground="#d4546f"></TextBlock>
                         </StackPanel>
-                        <Button  Name="Btn_customization" Tag="{Binding itemId}" Click="Btn_customization_Click" Width="25" Background="White" Margin="10,0,10,0" BorderBrush="White">
+                        <Button  Name="Btn_customization" Tag="{Binding itemId}" Click="Btn_customization_Click" Width="25" Background="White" Margin="10,0,10,0" BorderBrush="#d4546f">
                             <Image Source="F:\Visual Studio Projects\Wpf_RestaurantApp\Wpf_RestaurantApp\bin\Debug\customization.png" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Image>
                         </Button>
                         <Button Name="Btn_decreaseQuantity" 
-                                Content="-" Tag="{Binding itemId,Mode=TwoWay}" Width="20" Click="Btn_decreaseQuantity_Click"></Button>
-                        <TextBox Text="{Binding quantity}" Name="Tbx_quantity" Width="30" TextAlignment="Center"></TextBox>
-                        <Button Name="Btn_increaseQuantity" Tag="{Binding itemId,Mode=TwoWay}" Content="+" Width="20" Click="Btn_increaseQuantity_Click"></Button>
-                        <TextBlock Name="Tbk_price" Width="100" Margin="0,5,0,5">
+                                Content="-" Tag="{Binding itemId,Mode=TwoWay}" Width="20" Click="Btn_decreaseQuantity_Click" Background="#d4546f" Foreground="White"></Button>
+                        <TextBox Text="{Binding quantity}" Name="Tbx_quantity" Width="30" TextAlignment="Center" Foreground="#d4546f"></TextBox>
+                        <Button Name="Btn_increaseQuantity" Tag="{Binding itemId,Mode=TwoWay}" Content="+" Width="20" Click="Btn_increaseQuantity_Click" Background="#d4546f" Foreground="White"></Button>
+                        <TextBlock Name="Tbk_price" Width="100" Margin="5,5,5,5" Foreground="#d4546f">
                             <Run Text="{Binding totalQuantityPrice,Mode=TwoWay}"/>
                         </TextBlock>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button Content="Cancel Order" HorizontalAlignment="Right" Name="Btn_cancelOrder" VerticalAlignment="Bottom" Width="172" Margin="0,0,398,126" Height="34" Click="Btn_cancelOrder_Click" Tag="{Binding id}"/>
-        <Button Content="Billing" HorizontalAlignment="Right" Name="btn_Billing" VerticalAlignment="Bottom" Width="172" Margin="0,0,217,126" Height="34" Click="Btn_Billing_Click" Tag="{Binding id}"/>
-        <Button Content="Place Order" HorizontalAlignment="Right" Name="Btn_placeOrder" VerticalAlignment="Bottom" Width="172" Margin="0,0,33,126" Height="34" Click="Btn_placeOrder_Click" Tag="{Binding id}" />
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Total :" VerticalAlignment="Top" Margin="390,696,0,0"/>
+        <Button Content="Cancel Order" HorizontalAlignment="Right" Name="Btn_cancelOrder" VerticalAlignment="Bottom" Width="172" Margin="0,0,398,34" Height="34" Click="Btn_cancelOrder_Click" Tag="{Binding id}" Background="#d4546f" Foreground="White"/>
+        <Button Content="Billing" HorizontalAlignment="Right" Name="btn_Billing" VerticalAlignment="Bottom" Width="172" Margin="0,0,217,34" Height="34" Click="Btn_Billing_Click" Tag="{Binding id}" Background="#d4546f" Foreground="White"/>
+        <Button Content="Place Order" HorizontalAlignment="Right" Name="Btn_placeOrder" VerticalAlignment="Bottom" Width="172" Margin="0,0,33,34" Height="34" Click="Btn_placeOrder_Click" Tag="{Binding id}" Background="#d4546f" Foreground="White" />
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Total :" VerticalAlignment="Top" Margin="390,692,0,0" Foreground="#d4546f"/>
 
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding totalBillAmount}" VerticalAlignment="Top" Margin="439,697,0,0" Height="33" Width="76" Name="Tbk_totalBillAmount"/>
-        <TextBlock Text="Order" Margin="0,268,194,0"  Width="376" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-        <Button Content="Delete Item" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="170" Margin="0,0,398,209" Height="34" Name="Btn_deleteItem" Click="Btn_deleteItem_Click"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding billAmount}" VerticalAlignment="Top" Margin="439,687,0,0" Height="33" Width="76" Name="Tbk_totalBillAmount"/>
+        <TextBlock Text="Order" Margin="0,268,194,0"  Width="376" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right" Foreground="#d4546f"/>
+        <Button Content="Delete Item" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="170" Margin="0,0,398,131" Height="34" Name="Btn_deleteItem" Click="Btn_deleteItem_Click" Background="#d4546f" Foreground="White"/>
         <Button Content="Reassign Table" HorizontalAlignment="Left" VerticalAlignment="Top" Width="255" Margin="299,148,0,0" Visibility="Collapsed" />
         <CheckBox Content="" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,168,269,0" Name="Ckbx_hasAlcohol"/>
         <CheckBox Content="" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,168,172,0" Name="Ckbk_vegetarian"/>
-        <TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="Has Alcohol" VerticalAlignment="Top" Margin="0,142,227,0"/>
-        <TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="Vegetarian" VerticalAlignment="Top" Margin="0,142,141,0"/>
-        <TextBlock Text="Search Item" Margin="0,202,97,0"  Width="199" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-        <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="78" Margin="300,96,0,0" Name="Cbx_tableCategory" SelectionChanged="Cbx_tableCategory_SelectionChanged">
+        <TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="Has Alcohol" VerticalAlignment="Top" Margin="0,142,227,0" Foreground="#d4546f"/>
+        <TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="Vegetarian" VerticalAlignment="Top" Margin="0,142,141,0" Foreground="#d4546f"/>
+        <TextBlock Text="Search Item" Margin="0,202,97,0"  Width="199" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right" Foreground="#d4546f"/>
+        <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="78" Margin="300,96,0,0" Name="Cbx_tableCategory" SelectionChanged="Cbx_tableCategory_SelectionChanged" Background="White">
             <ComboBoxItem Content="Outdoor" IsSelected="True"></ComboBoxItem>
             <ComboBoxItem Content="Indoor"></ComboBoxItem>
 
         </ComboBox>
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Table Category" VerticalAlignment="Top" Margin="300,74,0,0"/>
-        <Button Content="Reassign Tables" HorizontalAlignment="Left" VerticalAlignment="Top" Width="148" Margin="406,98,0,0" Height="20"  Name="Btn_reassignTable"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Table Category" VerticalAlignment="Top" Margin="300,74,0,0" Foreground="#d4546f"/>
+        <Button Content="Reassign Tables" HorizontalAlignment="Left" VerticalAlignment="Top" Width="148" Margin="406,96,0,0" Height="22"  Name="Btn_reassignTable" Background="#d4546f" Foreground="White" Visibility="Collapsed"/>
     </Grid>
 </Window>
